@@ -1,0 +1,18 @@
+{
+  "name": "tile-coverage",
+  "version": "0.0.1",
+  "description": "Produce list of tile Z,X,Y that cover a GeoJSON polygon",
+  "main": "src/lib.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "A. Isaacs <dr.ahfz@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "deep-equal": "^1.0.1",
+    "sphericalmercator": "^1.0.4",
+    "turf": "^2.0.2",
+    "yargs": "^3.30.0"
+  },
+  "devDependencies": {}
+}
