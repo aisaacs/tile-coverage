@@ -1,21 +1,5 @@
-var turf = require('turf');;
-var SphericalMercator = require('sphericalmercator');
-var same = require('deep-equal');
 
-var area = null;
-var maxZoom = null;
-var sm = new SphericalMercator({
-    size: 256
-});
-var list = [];
-
-function addQuadTree(tile) {
-  list.push(tile);
-  if (tile.z < maxZoom) {
-    var subTiles = split(tile);
-    subTiles.forEach(addQuadTree);
-  }
-}
+const createLookup = require('xyzpdq');
 
 function split(tile) {
   var nx = tile.x * 2;
@@ -28,35 +12,36 @@ function split(tile) {
     {x: nx + 1, y: ny + 1, z: nz}
   ];
 }
+function check(tile, lookup, maxZoom) {
 
-function check(tile) {
-  var bbox = sm.bbox(tile.x, tile.y, tile.z);
-  var tilePoly = turf.bboxPolygon(bbox);
-  var intersection = turf.intersect(tilePoly, area);
+  let results = [];
 
-  if (intersection) {
-    if (same(turf.extent(intersection), turf.extent(tilePoly))) {
-      //the whole tile is included. Add the quadtree
-      addQuadTree(tile);
-    } else {
-      list.push(tile);
-      //check each sub tile
-      if (tile.z < maxZoom) {
-        var subTiles = split(tile);
-        subTiles.forEach(check);
-      }
-    }
+  let zDelta = maxZoom - tile.z ;
+  let zoomFactor = Math.pow(2, zDelta);
+  let worldSize = Math.pow(2, maxZoom);
+
+  let minX = tile.x * zoomFactor;
+  let maxX = (tile.x + 1) * zoomFactor - 1;
+  let maxY = worldSize - 1 - (tile.y * zoomFactor);
+  let minY = worldSize - 1 - ((tile.y + 1) * zoomFactor - 1);
+
+  let contains = lookup.contains(minX, minY, maxX, maxY, maxZoom)
+
+  if (contains === createLookup.ALL) {
+    results.push(tile);
+  } else if (contains === createLookup.SOME) {
+    let subTiles = split(tile);
+    subTiles.forEach(subTile => {
+      results = results.concat(check(subTile, lookup, maxZoom));
+    });
   }
+
+  return results;
 }
-
-
-function main(a, z) {
-  area = a;
-  maxZoom = z;
-  list = [];
+function main(feature, maxZoom) {
   var base  = {x: 0, y : 0, z: 0};
-  check(base);
-  return list;
+  let lookup = createLookup(feature);
+  return check(base, lookup, maxZoom);
 }
 
 module.exports = main;

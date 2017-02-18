@@ -1,5 +1,5 @@
 {
-  "name": "tile-coverage",
+  "name": "xyz-coverage",
   "version": "0.0.1",
   "description": "Produce list of tile Z,X,Y that cover a GeoJSON polygon",
   "main": "src/lib.js",
@@ -10,8 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "deep-equal": "^1.0.1",
-    "sphericalmercator": "^1.0.4",
-    "turf": "^2.0.2",
+    "xyzpdq": "git@github.com:aisaacs/xyzpdq.git#d4c05cf8f8caa203155c404ebf67583ff29b9368",
     "yargs": "^3.30.0"
   },
   "devDependencies": {}
