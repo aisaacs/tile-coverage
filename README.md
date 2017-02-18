@@ -9,4 +9,4 @@ coverage of an arbitrary polygon.
 
 `const coverage = require('xyzcoverage');`
 
-`let coverageSet = coverage.getCoverage(geoJSON, maxZoom);`
+`let coverageSet = coverage(geoJSON, maxZoom);`
