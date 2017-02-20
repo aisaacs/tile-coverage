@@ -1,6 +1,6 @@
 {
   "name": "xyzcoverage",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Produce list of tile Z,X,Y that cover a GeoJSON polygon",
   "main": "src/lib.js",
   "scripts": {
