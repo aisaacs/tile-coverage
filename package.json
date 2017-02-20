@@ -9,7 +9,7 @@
   "author": "A. Isaacs <dr.ahfz@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "xyzpdq": "git@github.com:aisaacs/xyzpdq.git#d4c05cf8f8caa203155c404ebf67583ff29b9368"
+    "xyzpdq": "^0.4.0"
   },
   "devDependencies": {}
 }
